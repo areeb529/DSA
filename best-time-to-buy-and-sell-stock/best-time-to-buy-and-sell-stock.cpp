@@ -4,7 +4,6 @@ public:
        int cp=INT_MAX;
         int maxProfit=0;
         for(auto i:prices){
-            if(cp!=INT_MAX)
             maxProfit=max(maxProfit,i-cp);
             cp=min(cp,i);
         }
