@@ -2,7 +2,7 @@ class Solution {
 public:
      vector<vector<int>> ans;
     void helper(vector<int>& nums,int i,int n){
-        if(i==n){
+        if(i==n-1){
             ans.push_back(nums);
             return;
         }
