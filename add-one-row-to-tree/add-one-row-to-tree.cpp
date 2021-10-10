@@ -11,29 +11,41 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, int val, int depth,int k){
-        if(root==NULL)return;
-        if(k==depth-1){
-            TreeNode*node1=new TreeNode(val);
-            TreeNode*node2=new TreeNode(val);
-            node1->left=root->left;
-            node2->right=root->right;
-            root->left=node1;
-            root->right=node2;
-            return;
-        }
-        else{
-            helper(root->left,val,depth,k+1);
-            helper(root->right,val,depth,k+1);
-        }
-    }
     TreeNode* addOneRow(TreeNode* root, int val, int depth) {
         if(depth==1){
             TreeNode*node=new TreeNode(val);
             node->left=root;
             return node;
         }
-        helper(root,val,depth,1);
+        queue<TreeNode*> pN;
+        int k=1;
+        pN.push(root);
+        pN.push(NULL);
+        while(!pN.empty()){
+            TreeNode*front=pN.front();
+            pN.pop();
+            if(front==NULL){
+                k++;
+                if(pN.empty()||k>=depth)break;
+                else pN.push(NULL);
+            }
+            else{
+                    if(k==(depth-1)){
+                        TreeNode*node1=new TreeNode(val);
+                        node1->left=front->left;
+                        front->left=node1;
+                    }
+                    if(front->left!=NULL)
+                    pN.push(front->left);
+                    if(k==(depth-1)){
+                        TreeNode*node2=new TreeNode(val);
+                        node2->right=front->right;
+                        front->right=node2;
+                    }
+                    if(front->right!=NULL)
+                    pN.push(front->right);
+            }
+        }
         return root;
     }
 };
