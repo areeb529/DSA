@@ -18,17 +18,16 @@ public:
         }
         return ans;
     }
-    int minCost(vector<int>& days,int i,vector<int>& costs,int n,vector<int> &dp){
-        if(i>=n)return 0;
-        if(dp[i]!=-1)return dp[i];
-        int op1=costs[0]+minCost(days,upperB(days,i,n-1,days[i]+1),costs,n,dp);
-        int op2=costs[1]+minCost(days,upperB(days,i,n-1,days[i]+7),costs,n,dp);
-        int op3=costs[2]+minCost(days,upperB(days,i,n-1,days[i]+30),costs,n,dp);
-        return dp[i]=min(op1,min(op2,op3));
-    }
+ 
     int mincostTickets(vector<int>& days, vector<int>& costs) {
         int n=days.size();
-        vector<int> dp(n,-1);
-        return minCost(days,0,costs,n,dp);
+        vector<int> dp(n+30,0);
+        for(int i=n-1;i>=0;i--){
+            int op1=costs[0]+dp[upperB(days,i,n-1,days[i]+1)];
+            int op2=costs[1]+dp[upperB(days,i,n-1,days[i]+7)];
+            int op3=costs[2]+dp[upperB(days,i,n-1,days[i]+30)];
+            dp[i]=min(op1,min(op2,op3));
+        }
+        return dp[0];
     }
 };
