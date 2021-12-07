@@ -10,23 +10,12 @@
  */
 class Solution {
 public:
-    ListNode* reverseLL(ListNode*head){
-        if(head==NULL||head->next==NULL)return head;
-        ListNode*ans=reverseLL(head->next);
-        ListNode*temp=head->next;
-        temp->next=head;
-        head->next=NULL;
-        return ans;
-    }
     int getDecimalValue(ListNode* head) {
-        head=reverseLL(head);
         int decimalValue=0;
         ListNode*temp=head;
-        int p=1;
         while(temp!=NULL){
-            decimalValue+=temp->val*p;
+            decimalValue=temp->val+(decimalValue<<1);
             temp=temp->next;
-            p*=2;
         }
         return decimalValue;
     }
