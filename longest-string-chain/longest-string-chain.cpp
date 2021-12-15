@@ -1,33 +1,28 @@
 class Solution {
 public:
     unordered_map<string,int> mp;
-    int maxLengthChain(string &s,int pos,vector<int> &dp){
-        if(dp[pos]!=-1)return dp[pos];
-        int ans=0;
-        for(int i=0;i<s.size();i++){
-            string temp;
-            if(i==s.size()-1){
-                temp=s.substr(0,i);
-            }
-            else{
-                temp=s.substr(0,i)+s.substr(i+1);
-            }
-            if(mp.count(temp)==1){
-                ans=max(ans,maxLengthChain(temp,mp[temp],dp));
-            }
-        }
-        return dp[pos]=1+ans;
+    static bool compare(const string &s1,const string &s2){
+        return s1.size()<s2.size();
     }
     int longestStrChain(vector<string>& words) {
-       int n=words.size();
+       
+        
+        int n=words.size();
+        sort(words.begin(),words.end(),compare);
         for(int i=0;i<n;i++){
-            mp[words[i]]=i;
+            mp[words[i]]=1;
         }
-        vector<int> dp(n,-1);
         int maxLength=0;
         for(int i=0;i<n;i++){
-            maxLength=max(maxLength,maxLengthChain(words[i],i,dp));
+            for(int j=0;j<words[i].size();j++){
+                string temp=words[i].substr(0,j)+words[i].substr(j+1);
+                if(mp.count(temp)==1){
+                    mp[words[i]]=max(mp[words[i]],1+mp[temp]);
+                }
+            }
+            maxLength=max(maxLength,mp[words[i]]);
         }
         return maxLength;
+        
     }
 };
