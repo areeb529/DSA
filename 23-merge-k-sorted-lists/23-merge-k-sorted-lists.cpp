@@ -12,33 +12,33 @@ class Solution {
 public:
     class compare{
         public:
-        bool operator()(const pair<ListNode*,int> &a,const pair<ListNode*,int> &b){
-            return a.first->val>b.first->val||a.first->val==b.first->val&&a.second<b.second;
+        bool operator()(const ListNode* a,const ListNode* b){
+            return a->val>b->val;
         }
     };
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        priority_queue<pair<ListNode*,int>,vector<pair<ListNode*,int>>,compare> pq;
+        priority_queue<ListNode*,vector<ListNode*>,compare> pq;
         int k=lists.size();
         for(int i=0;i<k;i++){
             if(lists[i])
-            pq.push({lists[i],i});
+            pq.push(lists[i]);
         }
         ListNode*head=NULL;
         ListNode*temp=NULL;
         while(!pq.empty()){
-            pair<ListNode*,int> p=pq.top();
+            ListNode*minN=pq.top();
             pq.pop();
             
             if(head==NULL){
-                head=p.first;
+                head=minN;
                 temp=head;
             }
             else{
-                temp->next=p.first;
-                temp=p.first;
+                temp->next=minN;
+                temp=minN;
             }
-            if(p.first->next){
-                pq.push({p.first->next,p.second});
+            if(minN->next){
+                pq.push(minN->next);
             }
         }
         return head;
