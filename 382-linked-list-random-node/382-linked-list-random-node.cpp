@@ -10,32 +10,17 @@
  */
 class Solution {
 public:
-    int length=0;
-    ListNode*H=NULL;
+    vector<int> v;
     Solution(ListNode* head) {
-        H=head;
-        length=0;
         ListNode*temp=head;
         while(temp){
-            length++;
+            v.push_back(temp->val);
             temp=temp->next;
         }
-        
     }
     
     int getRandom() {
-        int k=rand();
-        int cnt=k%length;
-        ListNode*temp=H;
-        int ans=0;
-        for(int i=0;i<=cnt&&temp;i++){
-            if(i==cnt){
-                ans=temp->val;
-                break;
-            }
-            temp=temp->next;
-        }
-        return ans;
+        return v[rand()%v.size()];
     }
 };
 
