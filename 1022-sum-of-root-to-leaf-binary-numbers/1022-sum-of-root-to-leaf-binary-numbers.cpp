@@ -14,7 +14,7 @@ public:
     int ans=0;
     void sumRootLeaf(TreeNode* root,int sum){
         if(!root)return;
-        sum=sum*2+root->val;
+        sum=(sum<<1)|root->val;
         if(root->left==root->right){
             ans+=sum;
             return;
