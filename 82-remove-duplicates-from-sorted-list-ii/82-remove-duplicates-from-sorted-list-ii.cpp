@@ -11,22 +11,50 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
+        //APPROACH 1
+//         if(head==NULL||head->next==NULL)return head;
+//         ListNode*prev=NULL;
+//         ListNode*cur=head;
+//         while(cur){
+//             while(cur&&cur->next&&cur->val==cur->next->val){
+//                 cur=cur->next;
+//                 if(cur->next==NULL||cur->val!=cur->next->val){
+//                     cur=cur->next;
+//                 }
+//             }
+//             if(prev)
+//             prev->next=cur;
+//             else head=cur;
+//             prev=cur;
+//             if(cur)
+//             cur=cur->next;
+            
+//         }
+//         return head;
         
         
         if(head==NULL||head->next==NULL)return head;
-        if(head->val==head->next->val){
-            ListNode*cur=head;
-            while(cur&&cur->next==NULL||cur&&cur->val==cur->next->val){
-                cur=cur->next;
+        ListNode*dummy=new ListNode(-101);
+        ListNode*prev=dummy;
+        ListNode*cur=head;
+        ListNode*curNext=head->next;
+        bool f=false;
+        while(cur){
+            if(curNext==NULL||cur->val!=curNext->val){
+                if(!f){
+                    prev->next=cur;
+                    prev=cur;
+                }
+                else if(curNext==NULL&&f)prev->next=NULL;
+                f=false;
             }
-            if(cur==NULL)return NULL;
-            return deleteDuplicates(cur->next);
+            else{
+                f=true;
+            }
+            cur=curNext;
+            if(curNext)
+            curNext=curNext->next;
         }
-        else{
-            head->next=deleteDuplicates(head->next);
-            return head;
-        }
-        
-        
+        return dummy->next;
     }
 };
