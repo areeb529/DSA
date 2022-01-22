@@ -1,18 +1,17 @@
 class Solution {
 public:
-    bool winnerSquareGame(int n,vector<int> &dp){
-        if(n==0)return false;
-        if(n==1)return true;
-        if(dp[n]!=-1)return dp[n];
-        bool f=true;
-        for(int i=1;i*i<=n;i++){
-            f=winnerSquareGame(n-i*i,dp);
-            if(!f)return dp[n]=true;
-        }
-        return dp[n]=0;
-    }
     bool winnerSquareGame(int n) {
-        vector<int> dp(n+1,-1);
-        return winnerSquareGame(n,dp);
+        vector<bool> dp(n+1,false);
+        dp[0]=false;
+        dp[1]=true;
+        for(int i=2;i<=n;i++){
+            for(int j=1;j*j<=i;j++){
+                if(dp[i-j*j]==false){
+                    dp[i]=true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
     }
 };
