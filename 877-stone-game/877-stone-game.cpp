@@ -3,7 +3,9 @@ public:
     int stoneGame(vector<int>& piles,int i,int j,vector<vector<int>> &dp){
         if(i>j)return 0;
         if(dp[i][j]!=-1)return dp[i][j];
-        return dp[i][j]=max(piles[i]+stoneGame(piles,i+1,j,dp),piles[j]+stoneGame(piles,i,j-1,dp));
+        int op1=piles[i]+min(stoneGame(piles,i+2,j,dp),stoneGame(piles,i+1,j-1,dp));
+        int op2=piles[j]+min(stoneGame(piles,i,j-2,dp),stoneGame(piles,i+1,j-1,dp));
+        return dp[i][j]=max(op1,op2);
     }
     bool stoneGame(vector<int>& piles) {
         int n=piles.size();
