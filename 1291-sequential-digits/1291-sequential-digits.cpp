@@ -1,38 +1,24 @@
 class Solution {
 public:
-    int countDigits(int num){
-        int k=0;
-        while(num){
-            k++;
-            num/=10;
-        }
-        return k;
-    }
+   
     vector<int> sequentialDigits(int low, int high) {
-        vector<int> ans;
-        int m=countDigits(low);
-        int n=countDigits(high);
-        vector<int> v(9);
-        for(int i=0;i<9;i++){
-            v[i]=i+1;
+        vector<int> allNum= {
+            12,23,34,45,56,67,78,89,
+            123,234,345,456,567,678,789,
+            1234,2345,3456,4567,5678,6789,
+            12345,23456,34567,45678,56789,
+            123456,234567,345678,456789,
+            1234567,2345678,3456789,
+            12345678,23456789,
+            123456789
+        };
+        vector<int> res;
+        for(int i=0;i<allNum.size();i++){
+            if(allNum[i]<low)continue;
+            if(allNum[i]>high)break;
+            res.push_back(allNum[i]);
         }
-        bool f=false;
-        for(int k=m;k<=n;k++){
-            for(int i=0;i+k-1<9;i++){
-                int num=0;
-                for(int j=i;j<i+k;j++){
-                    num=num*10+v[j];
-                }
-                if(low<=num&&num<=high){
-                    ans.push_back(num);
-                }
-                if(num>high){
-                    f=true;
-                    break;
-                }
-            }
-            if(f)break;
-        }
-        return ans;
+        return res;
+        
     }
 };
