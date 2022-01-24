@@ -1,22 +1,25 @@
 class Solution {
 public:
-    int dfs(unordered_map<int,int> &mp,int num){
-        if(mp[num]!=-1)return mp[num];
-        int ans=1;
-        if(mp.count(num-1)==1){
-            ans+=dfs(mp,num-1);
-        }
-        return mp[num]=ans;
-    }
+    
     int longestConsecutive(vector<int>& nums) {
-        int n=nums.size();
-        unordered_map<int,int> mp;
+        unordered_set<int> st(nums.begin(),nums.end());
         int res=0;
-        for(int i=0;i<n;i++){
-            mp[nums[i]]=-1;
-        }
-        for(auto &i:mp){
-            res=max(res,dfs(mp,i.first));
+        for(auto &n:nums){
+            if(st.find(n)==st.end())continue;
+            st.erase(n);
+            int ct=1;
+            int prev=n-1,next=n+1;
+            while(st.find(prev)!=st.end()){
+                ct++;
+                st.erase(prev);
+                prev--;
+            }
+            while(st.find(next)!=st.end()){
+                ct++;
+                st.erase(next);
+                next++;
+            }
+            res=max(res,ct);
         }
         return res;
     }
