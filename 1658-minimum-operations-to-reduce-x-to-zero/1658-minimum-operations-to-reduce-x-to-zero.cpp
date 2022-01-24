@@ -3,43 +3,29 @@ public:
     
    int minOperations(vector<int>& nums, int x) {
         int n=nums.size();
-        vector<int> pre(n,0);
-        vector<int> suf(n,0);
-        unordered_map<int,int> mp1;
-        unordered_map<int,int> mp2;
+        if(n==1)return nums[0]==x?1:-1;
+        int i=0,j=0;
+        int sum=0;
+        int res=INT_MAX;
         for(int i=0;i<n;i++){
-            if(i-1>=0)
-            pre[i]=pre[i-1]+nums[i];
-            else pre[i]=nums[i];
-            mp1[pre[i]]=i;
+            sum=sum+nums[i];
         }
-        for(int i=n-1;i>=0;i--){
-            if(i+1<n){
-                suf[i]=suf[i+1]+nums[i];
+        if(sum<x)return -1;
+        if(sum==x)return n;
+        sum=0;
+        while(i<n){
+            sum+=nums[j];
+            while(sum>=x&&i<n){
+                if(sum==x){
+                    if(i<=j&&(i==0||j==n-1))res=min(res,j-i+1);
+                    else if(i>j)res=min(res,j+1+n-i);
+                }
+                sum=sum-nums[i];
+                i++;
             }
-            else{
-                suf[i]=nums[i];
-            }
-            mp2[suf[i]]=i;
+            j=(j+1)%n;
         }
-        int ans=INT_MAX;
-        for(int i=0;i<n&&pre[i]<=x;i++){
-            if(mp2.count(x-pre[i])==1&&mp2[x-pre[i]]>i){
-                ans=min(ans,i+1+n-mp2[x-pre[i]]);
-            }
-            if(pre[i]==x){
-                ans=min(ans,i+1);
-            }
-        }
-        for(int i=n-1;i>=0&&suf[i]<=x;i--){
-            if(mp1.count(x-suf[i])==1&&mp1[x-suf[i]]<i){
-                ans=min(ans,n-i+mp1[x-suf[i]]+1);
-            }
-            if(suf[i]==x){
-                ans=min(ans,n-i);
-            }
-        }
-        return ans==INT_MAX?-1:ans;
-        
+        if(res==INT_MAX)res=-1;
+        return res;
     }
 };
