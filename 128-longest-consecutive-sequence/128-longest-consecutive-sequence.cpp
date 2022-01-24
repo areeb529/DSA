@@ -1,32 +1,23 @@
 class Solution {
 public:
-    unordered_set<int> visited;
-    unordered_set<int> graph;
-    int dfs(vector<int>& nums,int sv){
+    int dfs(unordered_map<int,int> &mp,int num){
+        if(mp[num]!=-1)return mp[num];
         int ans=1;
-        visited.insert(sv);
-        int prev=0,next=0;
-        if(visited.count(sv-1)==0&&graph.count(sv-1)==1){
-            prev=dfs(nums,sv-1);
+        if(mp.count(num-1)==1){
+            ans+=dfs(mp,num-1);
         }
-        if(visited.count(sv+1)==0&&graph.count(sv+1)==1){
-            next=dfs(nums,sv+1);
-        }
-        return ans+prev+next;
-        
+        return mp[num]=ans;
     }
     int longestConsecutive(vector<int>& nums) {
         int n=nums.size();
+        unordered_map<int,int> mp;
+        int res=0;
         for(int i=0;i<n;i++){
-            graph.insert(nums[i]);
+            mp[nums[i]]=-1;
         }
-        int ans=0;
-        for(int i=0;i<n;i++){
-            if(visited.count(nums[i])==0)
-            ans=max(ans,dfs(nums,nums[i]));
+        for(auto &i:mp){
+            res=max(res,dfs(mp,i.first));
         }
-        return ans;
-        
-        
+        return res;
     }
 };
