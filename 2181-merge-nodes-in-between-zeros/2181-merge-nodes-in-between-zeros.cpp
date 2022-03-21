@@ -18,8 +18,9 @@ public:
         while(temp){
             sum+=temp->val;
             if(temp->val==0&&sum){
-                tail->next=new ListNode(sum);
-                tail=tail->next;
+                tail->next=temp;
+                tail=temp;
+                tail->val=sum;
                 sum=0;
             }
             temp=temp->next;
