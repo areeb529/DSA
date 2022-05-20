@@ -1,35 +1,21 @@
 class Solution {
 public:
-    static bool compare(const pair<int,int> &a,const pair<int,int> &b){
-        return a.first<b.first||a.first==b.first&&a.second<b.second;
-    }
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         int n=intervals.size();
-        stack<pair<int,int>> st;
-        vector<pair<int,int>> nums(n);
-        for(int i=0;i<n;i++){
-            nums[i]={intervals[i][0],intervals[i][1]};
-        }
-        sort(nums.begin(),nums.end(),compare);
-        for(int i=0;i<n;i++){
-            if(st.empty()){
-                st.push(nums[i]);
+        if(n<=1)return intervals;
+        sort(intervals.begin(),intervals.end());
+        vector<vector<int>> res;
+        vector<int> temp=intervals[0];
+        for(auto it:intervals){
+            if(temp[1]>=it[0]){
+                temp[1]=max(temp[1],it[1]);
             }
             else{
-                if(nums[i].first<=st.top().second){
-                    st.top().second=max(nums[i].second,st.top().second);
-                }
-                else{
-                    st.push(nums[i]);
-                }
+                res.push_back(temp);
+                temp=it;
             }
         }
-        vector<vector<int>> ans;
-        while(!st.empty()){
-            ans.push_back({st.top().first,st.top().second});
-            st.pop();
-        }
-        reverse(ans.begin(),ans.end());
-        return ans;
+        res.push_back(temp);
+        return res;
     }
 };
