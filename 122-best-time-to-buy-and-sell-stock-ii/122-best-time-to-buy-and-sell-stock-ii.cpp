@@ -17,23 +17,23 @@ public:
    //  }
     int maxProfit(vector<int>& prices) {
         int n=prices.size();
-        vector<vector<int>> dp(2,vector<int>(2,0));
+        vector<int> dp(2,0);
         for(int i=n-1;i>=0;i--){
             for(int buy=0;buy<=1;buy++){
                 int profit=0;
                 if(buy){
-                int op1=-prices[i]+dp[(i+1)&1][0];
-                int op2=dp[(i+1)&1][1];
+                int op1=-prices[i]+dp[0];
+                int op2=dp[1];
                 profit=max(op1,op2);
                 }
                 else{
-                int op1=prices[i]+dp[(i+1)&1][1];
-                int op2=dp[(i+1)&1][0];
+                int op1=prices[i]+dp[1];
+                int op2=dp[0];
                 profit=max(op1,op2);
                 }
-                dp[i&1][buy]=profit;
+                dp[buy]=profit;
             }
         }
-        return dp[0][1];
+        return dp[1];
     }
 };
