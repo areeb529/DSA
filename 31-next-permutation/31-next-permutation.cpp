@@ -22,7 +22,7 @@ public:
                 f=true;
                 int idx=upperBound(nums,i,n-1,nums[i-1]);
                 swap(nums[i-1],nums[idx]);
-                sort(nums.begin()+i,nums.end());
+                reverse(nums.begin()+i,nums.end());
                 break;
             }
         }
