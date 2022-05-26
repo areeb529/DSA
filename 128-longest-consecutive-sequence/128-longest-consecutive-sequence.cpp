@@ -1,26 +1,23 @@
 class Solution {
 public:
-    
+    unordered_set<int> st;
+    int dfs(int x){
+        st.erase(x);
+        int right=0,left=0;
+        if(st.count(x+1)==1)right=dfs(x+1);
+        if(st.count(x-1)==1)left=dfs(x-1);
+        return left+1+right;
+    }
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> st(nums.begin(),nums.end());
-        int res=0;
-        for(auto &n:nums){
-            if(st.find(n)==st.end())continue;
-            st.erase(n);
-            int ct=1;
-            int prev=n-1,next=n+1;
-            while(st.find(prev)!=st.end()){
-                ct++;
-                st.erase(prev);
-                prev--;
-            }
-            while(st.find(next)!=st.end()){
-                ct++;
-                st.erase(next);
-                next++;
-            }
-            res=max(res,ct);
+        int n=nums.size();
+        int maxM=0;
+        for(int i=0;i<n;i++){
+            st.insert(nums[i]);
         }
-        return res;
+        for(int i=0;i<n;i++){
+            maxM=max(maxM,dfs(nums[i]));
+        }
+        return maxM;
+                         
     }
 };
