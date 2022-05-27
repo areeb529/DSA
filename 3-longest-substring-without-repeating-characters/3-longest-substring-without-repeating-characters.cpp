@@ -10,9 +10,11 @@ public:
                 ans=max(ans,j-i+1);
             }
             else{
-                while(i<=mp[s[j]]){
-                    mp.erase(s[i]);
-                    i++;
+                if(mp[s[j]]<i){
+                    ans=max(ans,j-i+1);
+                }
+                else{
+                    i=mp[s[j]]+1;
                 }
             }
             mp[s[j]]=j;
