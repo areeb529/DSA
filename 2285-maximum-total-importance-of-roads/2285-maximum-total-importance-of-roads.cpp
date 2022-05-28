@@ -15,19 +15,10 @@ public:
         for(int i=0;i<n;i++){
             mp[dgi[i].second]=i+1;
         }
-        vector<vector<int>> graph(n);
+       long long ans=0;
         for(auto &i:roads){
-            graph[i[0]].push_back(i[1]);
-            graph[i[1]].push_back(i[0]);
+            ans+=(mp[i[0]]+mp[i[1]]);
         }
-        vector<bool> visited(n,false);
-        long long ans=0;
-        for(int i=0;i<n;i++){
-            for(auto &j:graph[i]){
-                ans+=(mp[i]+mp[j]);
-            }
-        }
-        return ans/2;
-        
+        return ans;
     }
 };
