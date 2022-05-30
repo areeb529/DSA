@@ -17,13 +17,15 @@ public:
     //     head->next=NULL;
     //     return newHead;
     // }
-    int lengthLL(ListNode*head){
-        if(head==NULL)return 0;
-        return 1+lengthLL(head->next);
-    }
+    
     ListNode* rotateRight(ListNode* head, int k) {
         if(head==NULL||head->next==NULL)return head;
-        int length=lengthLL(head);
+        int length=1;
+        ListNode*tail=head;
+        while(tail->next){
+            tail=tail->next;
+            length++;
+        }
         int y=k%length;
         if(y==0)return head;
         int ct=1;
@@ -34,11 +36,8 @@ public:
         }
         ListNode*newHead=temp->next;
         temp->next=NULL;
-        temp=newHead;
-        while(temp->next){
-            temp=temp->next;
-        }
-        temp->next=head;
+        
+        tail->next=head;
         return newHead;
     }
 };
