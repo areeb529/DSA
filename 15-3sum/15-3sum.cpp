@@ -5,6 +5,7 @@ public:
         sort(nums.begin(),nums.end());
         vector<vector<int>> res;
         for(int i=0;i<n;i++){
+            if(i>0&&nums[i-1]==nums[i])continue;
             int j=i+1,k=n-1;
             while(j<k){
                 int sum=nums[i]+nums[j]+nums[k];
@@ -16,15 +17,13 @@ public:
                     k--;
                 }
                 else if(sum<0){
-                    while(j+1<n&&nums[j]==nums[j+1])j++;
                     j++;
                 }
                 else{
-                    while(j<k-1&&nums[k-1]==nums[k])k--;
                     k--;
                 }
             }
-            while(i+1<n&&nums[i]==nums[i+1])i++;
+            
         }
         return res;
     }
