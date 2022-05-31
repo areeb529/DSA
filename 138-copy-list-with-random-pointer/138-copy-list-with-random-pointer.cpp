@@ -16,24 +16,36 @@ public:
 
 class Solution {
 public:
-    unordered_map<Node*,Node*> mp;
-    Node* helper(Node* head){
+    // Node* helper(Node* head){
+    //     if(head==NULL)return NULL;
+    //     Node*cur=new Node(head->val);
+    //     cur->next=helper(head->next);
+    //     cur->random=head;
+    //     return cur;
+    // }
+    Node*helper(Node* head){
         if(head==NULL)return NULL;
-        Node*cur=new Node(head->val);
-        cur->next=helper(head->next);
-        mp[head]=cur;
-        return cur;
+        Node*temp=head->next;
+        head->next=new Node(head->val);
+        Node*h1=head->next;
+        h1->next=helper(temp);;
+        if(head->random)
+        h1->random=head->random->next;
+        return head;
     }
     Node* copyRandomList(Node* head) {
-       Node*newHead=helper(head);
-        Node*temp=newHead;
-        Node*orig=head;
-        mp[NULL]=NULL;
+        if(head==NULL)return NULL;
+       head=helper(head);
+        Node*temp=head;
+        Node*newHead=head->next;
         while(temp){
-            temp->random=mp[orig->random];
+            Node*nxt=temp->next;
+            temp->next=temp->next->next;
+            if(nxt&&nxt->next)
+            nxt->next=nxt->next->next;
             temp=temp->next;
-            orig=orig->next;
         }
         return newHead;
+       
     }
 };
