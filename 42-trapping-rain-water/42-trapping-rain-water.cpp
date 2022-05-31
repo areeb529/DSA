@@ -14,13 +14,7 @@ public:
         }
         int ans=0;
         for(int i=0;i<n;i++){
-            if(pre[i]<=suff[i]){
-                ans+=(pre[i]-height[i]);
-            }
-            else{
-                if(pre[i]!=height[i])
-                ans+=(suff[i]-height[i]);
-            }
+            ans+=(min(pre[i],suff[i])-height[i]);
         }
         return ans;
     }
