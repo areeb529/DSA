@@ -8,28 +8,32 @@ class Solution
     public:
     //Function to find the maximum number of meetings that can
     //be performed in a meeting room.
+    class triplet{
+      public:
+      int first;
+      int second;
+      int third;
+    };
+    static bool compare(const triplet &a,const triplet &b){
+        return a.second<b.second||(a.second==b.second&&a.third<b.third);
+    }
     int maxMeetings(int start[], int end[], int n)
     {
         // Your code here
-        vector<pair<int,int>> nums(n);
+        vector<triplet> nums(n);
         for(int i=0;i<n;i++){
-            nums[i]={start[i],end[i]};
+            nums[i]={start[i],end[i],i};
         }
-        sort(nums.begin(),nums.end());
-        int res=1;
-        pair<int,int> p=nums[0];
+        sort(nums.begin(),nums.end(),compare);
+        int endTime=INT_MIN;
+        int ans=0;
         for(auto &i:nums){
-            if(i.first<=p.second){
-                if(i.second<=p.second){
-                    p=i;
-                }
-            }
-            else{
-                p=i;
-                res++;
+            if(endTime<i.first){
+                ans++;
+                endTime=i.second;
             }
         }
-        return res;
+        return ans;
     }
 };
 
