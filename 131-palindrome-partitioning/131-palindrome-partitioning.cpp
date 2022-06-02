@@ -1,29 +1,35 @@
 class Solution {
 public:
-    vector<vector<string>> ans;
-    bool isPalindrome(string &s){
-        string temp=s;
-        reverse(temp.begin(),temp.end());
-        return s==temp;
+    vector<vector<string>> res;
+    bool isPalindrome(string &s,int i,int j){
+        while(i<=j){
+            if(s[i]!=s[j])return false;
+            else{
+                i++;
+                j--;
+            }
+        }
+        return true;
     }
-    void partition(string &s,int i,int j,vector<string> &v){
-        if(i>j){
-            ans.push_back(v);
+    void partition(string &s,int i,int n,vector<string> &pal){
+        if(i==n){
+            res.push_back(pal);
             return;
         }
-        for(int k=i;k<=j;k++){
-            string temp=s.substr(i,k-i+1);
-            if(isPalindrome(temp)){
-                v.push_back(temp);
-                partition(s,k+1,j,v);
-                v.pop_back();
+        string palStr;
+        for(int j=i;j<n;j++){
+            palStr+=s[j];
+            if(isPalindrome(s,i,j)){
+                pal.push_back(palStr);
+                partition(s,j+1,n,pal);
+                pal.pop_back();
             }
         }
     }
     vector<vector<string>> partition(string s) {
         int n=s.size();
-        vector<string> v;
-        partition(s,0,n-1,v);
-        return ans;
+        vector<string> pal;
+        partition(s,0,n,pal);
+        return res;
     }
 };
