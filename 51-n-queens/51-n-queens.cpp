@@ -1,46 +1,38 @@
 class Solution {
 public:
     vector<vector<string>> res;
-    bool canPlace(vector<string> &allQueenPos,int x,int y,int n,string &place){
-        if(place[y]=='Q')return false;
-        int i=x-1,j=y-1;
-        while(i>=0&&j>=0){
-            if(allQueenPos[i][j]=='Q')return false;
-            i--;
-            j--;
+    bool canPlace(vector<string> &board,int row,int col,int n,vector<int> &upperCol,vector<int> &upperDiag,vector<int>&lowerDiag){
+        if(upperCol[col]==1||upperDiag[n-1-row+col]==1||lowerDiag[row+col]==1)return false;
+        else{
+            upperCol[col]=1;
+            upperDiag[n-1-row+col]=1;
+            lowerDiag[row+col]=1;
+            return true;
         }
-        i=x-1,j=y+1;
-        while(i>=0&&j<n){
-            if(allQueenPos[i][j]=='Q')return false;
-            i--;
-            j++;
-        }
-        return true;
     }
-    void placeQueens(string &place,int i,int n,vector<string> &allQueenPos){
-        if(i==n){
-            res.push_back(allQueenPos);
+    void placeQueens(vector<string> &board,int row,int n,vector<int> &upperCol,vector<int> &upperDiag,vector<int>&lowerDiag){
+        if(row==n){
+            res.push_back(board);
             return;
         }
-        for(int j=0;j<n;j++){
-            if(canPlace(allQueenPos,i,j,n,place)){
-                place[j]='Q'; 
-                allQueenPos[i][j]='Q';
-                placeQueens(place,i+1,n,allQueenPos);
-                allQueenPos[i][j]='.';
-                place[j]='.';
+        for(int col=0;col<n;col++){
+            if(canPlace(board,row,col,n,upperCol,upperDiag,lowerDiag)){
+                board[row][col]='Q';
+                placeQueens(board,row+1,n,upperCol,upperDiag,lowerDiag);
+                board[row][col]='.';
+                upperCol[col]=0;
+                upperDiag[n-1-row+col]=0;
+                lowerDiag[row+col]=0;
             }
         }
         
     }
     vector<vector<string>> solveNQueens(int n) {
-        string place(n,'.');
-        vector<string> allQueenPos;
-        string s(n,'.');
-        for(int i=0;i<n;i++){
-            allQueenPos.push_back(s);
-        }
-        placeQueens(place,0,n,allQueenPos);
+        vector<string> board(n,string(n,'.'));
+        vector<int> upperCol(n,0);
+        vector<int> upperDiag(2*n-1,0);
+        vector<int> lowerDiag(2*n-1,0);
+        placeQueens(board,0,n,upperCol,upperDiag,lowerDiag);
         return res;
     }
 };
