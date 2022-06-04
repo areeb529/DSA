@@ -8,29 +8,21 @@ class Solution{
 	int NthRoot(int n, int m)
 	{
 	    // Code here.
-	    int s=0,e=m;
+	    long long s=1,e=m;
 	    if(m==1)return 1;
 	    if(n==1)return m;
 	    int ans=-1;
-	    long target=m;
+	    long long target=m;
 	    while(s<=e){
-	        long mid=(e-s)/2+s;
-	       // cout<<"s "<<s<<" "<<"e "<<e<<endl;
-	       // cout<<"mid "<<mid<<endl;
-	        long x=1;
+	        long long mid=(e-s)/2+s;
+	        long long x=1;
 	        int i=0;
 	        bool f=false;
 	        while(i<n){
 	            x*=mid;
-	            if(x>INT_MAX){
-	                e=mid-1;
-	                f=true;
-	                break;
-	            }
+	            if(x>target)break;
 	            i++;
 	        }
-	        if(f)continue;
-	        //cout<<"x "<<x<<endl;
 	        if(x==target){
 	            ans=mid;
 	            break;
