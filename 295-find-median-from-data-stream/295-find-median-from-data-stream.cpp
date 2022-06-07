@@ -2,11 +2,9 @@ class MedianFinder {
 public:
     priority_queue<int> pq1;
     priority_queue<int,vector<int>,greater<int>> pq2;
-    
     MedianFinder() {
         
     }
-    
     void addNum(int num) {
         if(pq1.size()<=pq2.size()){
             pq1.push(num);
@@ -14,7 +12,7 @@ public:
         else{
             pq2.push(num);
         }
-        while(!pq1.empty()&&!pq2.empty()&&pq1.top()>pq2.top()){
+        if(!pq1.empty()&&!pq2.empty()&&pq1.top()>pq2.top()){
             int num1=pq1.top();
             int num2=pq2.top();
             pq1.pop();
@@ -22,7 +20,6 @@ public:
             pq2.push(num1);
             pq1.push(num2);
         }
-        
     }
     
     double findMedian() {
