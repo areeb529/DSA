@@ -12,14 +12,10 @@ public:
         else{
             pq2.push(num);
         }
-        if(!pq1.empty()&&!pq2.empty()&&pq1.top()>pq2.top()){
-            int num1=pq1.top();
-            int num2=pq2.top();
-            pq1.pop();
-            pq2.pop();
-            pq2.push(num1);
-            pq1.push(num2);
-        }
+        pq2.push(pq1.top());
+        pq1.pop();
+        pq1.push(pq2.top());
+        pq2.pop();
     }
     
     double findMedian() {
