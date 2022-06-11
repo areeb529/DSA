@@ -1,7 +1,6 @@
 class Solution {
 public:
-    
-   int minOperations(vector<int>& nums, int x) {
+    int minOperations(vector<int>& nums, int x) {
         int n=nums.size();
         if(n==1)return nums[0]==x?1:-1;
         int i=0,j=0;
