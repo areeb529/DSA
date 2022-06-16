@@ -1,32 +1,46 @@
 class MinStack {
 public:
-    stack<pair<int,int>> st;
-    int minM;
+    class Node{
+        public:
+        int data;
+        Node*next;
+        int minM;
+        Node(int data){
+            this->data=data;
+            next=NULL;
+            minM=data;
+        }
+    };
+    Node*head;
+    Node*tail;
     MinStack() {
-        minM=INT_MAX;
+        head=NULL;
+        tail=NULL;
     }
     
     void push(int val) {
-        minM=min(minM,val);
-        st.push({val,minM});
+        Node*newNode=new Node(val);
+        newNode->next=tail;
+        if(head==NULL)head=newNode;
+        tail=newNode;
+        if(tail->next){
+            tail->minM=min(tail->minM,tail->next->minM);
+        }
     }
     
     void pop() {
-        st.pop();
-        if(!st.empty()){
-            if(minM<st.top().second){
-                minM=st.top().second;
-            }
-        }
-        else minM=INT_MAX;
+        Node*temp=tail;
+        tail=tail->next;
+        temp->next=NULL;
+        delete temp;
     }
     
     int top() {
-        return st.top().first;
+        return tail->data;
     }
     
     int getMin() {
-        return st.top().second;
+        return tail->minM;
     }
 };
 
