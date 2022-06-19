@@ -1,63 +1,62 @@
 class Trie {
 public:
     class TrieNode{
-        public:
-        char data;
-        TrieNode**children;
-        bool isTerminal;
-        TrieNode(char data){
-            this->data=data;
-            children=new TrieNode*[26];
-            for(int i=0;i<26;i++){
-                children[i]=NULL;
-            }
-            isTerminal=false;
-        }
+    public:
+      char data;
+      TrieNode**children;
+      bool isTerminal;
+      TrieNode(char data){
+          this->data=data;
+          children=new TrieNode*[26];
+          for(int i=0;i<26;i++){
+              children[i]=NULL;
+          }
+          isTerminal=false;
+      }
     };
     TrieNode*root;
     Trie() {
         root=new TrieNode('\0');
     }
-    void insert(TrieNode*root,string &word,int i){
-        if(i==word.size()){
-            root->isTerminal=true;
-            return;
+    void insert(TrieNode*root,string &word,int i,int n){
+        if(i==n){
+         root->isTerminal=true;
+         return;
         }
-        int index=word[i]-'a';
-        TrieNode*child;
-        if(root->children[index]!=NULL){
-            child=root->children[index];
+        if(root->children[word[i]-'a']==NULL){
+            TrieNode*newNode=new TrieNode(word[i]);
+            root->children[word[i]-'a']=newNode;
+            insert(newNode,word,i+1,n);
         }
         else{
-            child=new TrieNode(word[i]);
-            root->children[index]=child;
+            insert(root->children[word[i]-'a'],word,i+1,n);
         }
-        insert(child,word,i+1);
     }
     void insert(string word) {
-        insert(root,word,0);
+        int n=word.size();
+        insert(root,word,0,n);
     }
-    bool search(TrieNode*root,string &word,int i){
-        if(i==word.size()){
-            return root->isTerminal;
+    bool search(TrieNode*root,string &word,int i,int n){
+        if(i==n){
+            return root->isTerminal==true;
         }
-        int index=word[i]-'a';
-        if(root->children[index]==NULL)return false;
-        TrieNode*child=root->children[index];
-        return search(child,word,i+1);
+        if(root->children[word[i]-'a']==NULL)return false;
+        return search(root->children[word[i]-'a'],word,i+1,n);
     }
     bool search(string word) {
-        return search(root,word,0);
+        int n=word.size();
+        return search(root,word,0,n);
     }
-    bool startsWith(TrieNode*root,string &prefix,int i){
-        if(i==prefix.size())return true;
-        int index=prefix[i]-'a';
-        if(root->children[index]==NULL)return false;
-        TrieNode*child=root->children[index];
-        return startsWith(child,prefix,i+1);
+    bool startsWith(TrieNode*root,string &prefix,int i,int n){
+        if(i==n){
+            return true;
+        }
+        if(root->children[prefix[i]-'a']==NULL)return false;
+        return startsWith(root->children[prefix[i]-'a'],prefix,i+1,n);
     }
     bool startsWith(string prefix) {
-        return startsWith(root,prefix,0);
+        int n=prefix.size();
+        return startsWith(root,prefix,0,n);
     }
 };
 
