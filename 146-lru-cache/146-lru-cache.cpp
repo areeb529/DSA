@@ -9,22 +9,27 @@ public:
         this->capacity=capacity;
         size=0;
     }
-    
-    int get(int key) {
-        if(mp.count(key)==0)return -1;
+    void evict(){
+        int leastRecentlyUsedKey=l.back();
+        mp.erase(leastRecentlyUsedKey);
+        address.erase(leastRecentlyUsedKey);
+        l.pop_back();
+    }
+    void update(int key){
         l.erase(address[key]);
         l.push_front(key);
         address[key]=l.begin();
+    }
+    int get(int key) {
+        if(mp.count(key)==0)return -1;
+        update(key);
         return mp[key];
     }
     
     void put(int key, int value) {
         if(mp.count(key)==0){
             if(size==capacity){
-                int leastRecentlyUsedKey=l.back();
-                mp.erase(leastRecentlyUsedKey);
-                address.erase(leastRecentlyUsedKey);
-                l.pop_back();
+                evict();
                 size--;
             }
             l.push_front(key);
@@ -33,9 +38,7 @@ public:
             size++;
         }
         else{
-            l.erase(address[key]);
-            l.push_front(key);
-            address[key]=l.begin();
+            update(key);
             mp[key]=value;
         }
     }
