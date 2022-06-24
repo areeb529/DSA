@@ -11,10 +11,10 @@
  */
 class Solution {
 public:
-    map<int,map<int,vector<int>>> mp;
+    map<int,map<int,multiset<int>>> mp;
     void helper(TreeNode*root,int row,int col){
         if(!root)return;
-        mp[col][row].push_back(root->val);
+        mp[col][row].insert(root->val);
         helper(root->left,row+1,col-1);
         helper(root->right,row+1,col+1);
     }
@@ -24,7 +24,6 @@ public:
         for(auto &i:mp){
             vector<int> v;
             for(auto &j:i.second){
-                sort(j.second.begin(),j.second.end());
                 for(auto &k:j.second){
                     v.push_back(k);
                 }
