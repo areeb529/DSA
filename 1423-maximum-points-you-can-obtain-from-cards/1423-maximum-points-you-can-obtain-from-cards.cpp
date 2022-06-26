@@ -2,20 +2,20 @@ class Solution {
 public:
     int maxScore(vector<int>& cardPoints, int k) {
         int n=cardPoints.size();
-        vector<int> pre(n+1,0);
-        vector<int> suf(n+1,0);
-        for(int i=0;i<n;i++){
-            pre[i+1]=cardPoints[i]+pre[i];
-            suf[n-i-1]=cardPoints[n-i-1]+suf[n-i];
+        int total=0,sum=0,minSum=INT_MAX,winSize=n-k,i=0,j=0;
+        while(j<n){
+            sum+=cardPoints[j];
+            total+=cardPoints[j];
+            if(j-i+1==winSize){
+                minSum=min(minSum,sum);
+                sum-=cardPoints[i];
+                i++;
+            }
+            j++;
         }
-        int i=-1;
-        int maxScore=0;
-        while(i<k){
-            int j=n-k+i+1;
-            int score=pre[i+1]+suf[j];
-            maxScore=max(score,maxScore);
-            i++;
-        }
-        return maxScore;
+        if(k==n)return total;
+        else return total-minSum;
+        
+        
     }
 };
