@@ -32,13 +32,29 @@ public:
 //         return root;
         
 //     }
-    TreeNode*prev=NULL;
+    //TreeNode*prev=NULL;
     void flatten(TreeNode* root) {
-        if(!root)return;
-        flatten(root->right);
-        flatten(root->left);
-        root->left=NULL;
-        root->right=prev;
-        prev=root;
+        // if(!root)return;
+        // flatten(root->right);
+        // flatten(root->left);
+        // root->left=NULL;
+        // root->right=prev;
+        // prev=root;
+        TreeNode*cur=root;
+        TreeNode*temp=cur;
+        while(cur){
+            temp=cur;
+            if(cur->left){
+                cur=cur->left;
+                while(cur->right){
+                    cur=cur->right;
+                }
+                cur->right=temp->right;
+                temp->right=temp->left;
+                temp->left=NULL;
+                cur=temp;
+            }
+            cur=cur->right;
+        }
     }
 };
