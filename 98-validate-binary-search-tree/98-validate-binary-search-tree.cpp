@@ -15,14 +15,22 @@ public:
     //     if(!root)return root;
     //     maxNode=
     // }
-    bool isValidBST(TreeNode*root,TreeNode*minNode,TreeNode*maxNode){
-        if(!root)return true;
-        if((minNode&&minNode->val>=root->val)||(maxNode&&root->val>=maxNode->val))return false;
-        return (isValidBST(root->left,minNode,root)&&isValidBST(root->right,root,maxNode));
-        
-    }
+    vector<int> res;
     bool isValidBST(TreeNode* root) {
-        return isValidBST(root,NULL,NULL);
+       stack<TreeNode*> st;
+        long prev=-1e11;
+        while(root||!st.empty()){
+            while(root){
+                st.push(root);
+                root=root->left;
+            }
+            root=st.top();
+            if(prev>=root->val)return false;
+            prev=root->val;
+            st.pop();
+            root=root->right;
+        }
+        return true;
         
     }
 };
