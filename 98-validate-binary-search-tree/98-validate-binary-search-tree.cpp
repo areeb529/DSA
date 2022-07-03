@@ -11,18 +11,13 @@
  */
 class Solution {
 public:
-    vector<int> res;
-    int i=0;
-    bool helper(TreeNode*root){
+    // bool isValidBST(TreeNode*root,TreeNode*maxNode,TreeNode*minNode){
+    //     if(!root)return root;
+    //     maxNode=
+    // }
+    bool helper(TreeNode*root,long minNode=-100000000000,long maxNode=100000000000){
         if(!root)return true;
-        bool leftS=helper(root->left);
-        if(!leftS)return false;
-        res.push_back(root->val);
-        int idx=i;
-        i++;
-        bool rightS=helper(root->right);
-        if(!rightS)return false;
-        if((root->left==NULL||res[idx-1]<res[idx])&&(root->right==NULL||res[idx]<res[idx+1]))return true;
+        if(minNode<root->val&&root->val<maxNode&&helper(root->left,minNode,root->val)&&helper(root->right,root->val,maxNode))return true;
         else return false;
     }
     bool isValidBST(TreeNode* root) {
