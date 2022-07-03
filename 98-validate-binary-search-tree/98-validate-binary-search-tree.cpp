@@ -15,13 +15,14 @@ public:
     //     if(!root)return root;
     //     maxNode=
     // }
-    TreeNode*prev=NULL;
-    bool isValidBST(TreeNode* root) {
+    bool isValidBST(TreeNode*root,TreeNode*minNode,TreeNode*maxNode){
         if(!root)return true;
-        if(!isValidBST(root->left))return false;
-        if(prev!=NULL&&prev->val>=root->val)return false;
-        prev=root;
-        return isValidBST(root->right);
+        if((minNode&&minNode->val>=root->val)||(maxNode&&root->val>=maxNode->val))return false;
+        return (isValidBST(root->left,minNode,root)&&isValidBST(root->right,root,maxNode));
+        
+    }
+    bool isValidBST(TreeNode* root) {
+        return isValidBST(root,NULL,NULL);
         
     }
 };
