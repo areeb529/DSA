@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool partition(vector<int>& nums,int i,int n,int curSum,int targetSum,int k,vector<bool> &visited){
-        if(k==0)return true;
+        if(k==1)return true;
         if(curSum==targetSum){
             return partition(nums,0,n,0,targetSum,k-1,visited);
         }
