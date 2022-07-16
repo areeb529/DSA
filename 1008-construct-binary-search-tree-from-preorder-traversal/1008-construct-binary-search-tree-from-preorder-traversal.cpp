@@ -13,12 +13,12 @@ class Solution {
 public:
    TreeNode* helper(vector<int>& preorder,int &i,int upper_bound=1001){
        if(i==preorder.size()||upper_bound<preorder[i]){
-           i--;
            return NULL;
        }
        TreeNode*root=new TreeNode(preorder[i]);
-       root->left=helper(preorder,++i,root->val);
-       root->right=helper(preorder,++i,upper_bound);
+       i++;
+       root->left=helper(preorder,i,root->val);
+       root->right=helper(preorder,i,upper_bound);
        return root;
    }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
