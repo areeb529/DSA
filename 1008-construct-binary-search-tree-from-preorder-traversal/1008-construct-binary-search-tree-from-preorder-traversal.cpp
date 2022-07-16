@@ -11,6 +11,7 @@
  */
 class Solution {
 public:
+    unordered_map<int,int> mp;
     TreeNode*buildTree(vector<int>& preorder,vector<int>& inorder,int preS,int preE,int inS,int inE){
         if(inS>inE)return NULL;
         int leftPreS=preS+1;
@@ -19,13 +20,8 @@ public:
         int rightInE=inE;
         int rootValue=preorder[preS];
         TreeNode*root=new TreeNode(rootValue);
-        int rootIndex=-1;
-        for(int i=inS;i<=inE;i++){
-            if(inorder[i]==rootValue){
-                rootIndex=i;
-                break;
-            }
-        }
+        int rootIndex=mp[rootValue];
+        
         int leftInE=rootIndex-1;
         int rightInS=rootIndex+1;
         int leftPreE=leftPreS+leftInE-leftInS;
@@ -38,6 +34,9 @@ public:
         int n=preorder.size();
         vector<int> inorder=preorder;
         sort(inorder.begin(),inorder.end());
+        for(int i=0;i<n;i++){
+            mp[inorder[i]]=i;
+        }
         return buildTree(preorder,inorder,0,n-1,0,n-1);
     }
 };
