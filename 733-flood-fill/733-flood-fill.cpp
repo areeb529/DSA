@@ -1,18 +1,19 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>& image,int x,int y,int origColor,int newColor,int m,int n){
-        if(x<0||x>=m||y<0||y>=n||image[x][y]!=origColor)return;
-        image[x][y]=newColor;
-        dfs(image,x+1,y,origColor,newColor,m,n);
-        dfs(image,x,y+1,origColor,newColor,m,n);
-        dfs(image,x-1,y,origColor,newColor,m,n);
-        dfs(image,x,y-1,origColor,newColor,m,n);
-    }
+   void helper(vector<vector<int>>& image, int sr, int sc,int m,int n,int color, int newColor){
+       if(sr<0||sr>=m||sc<0||sc>=n||image[sr][sc]!=color)return;
+       image[sr][sc]=newColor;
+       helper(image,sr+1,sc,m,n,color,newColor);
+       helper(image,sr,sc+1,m,n,color,newColor);
+       helper(image,sr-1,sc,m,n,color,newColor);
+       helper(image,sr,sc-1,m,n,color,newColor);
+   }
     vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
-        if(image[sr][sc]==newColor)return image;
         int m=image.size();
         int n=image[0].size();
-        dfs(image,sr,sc,image[sr][sc],newColor,m,n);
+        int color=image[sr][sc];
+        if(color==newColor)return image;
+        helper(image,sr,sc,m,n,color,newColor);
         return image;
     }
 };
