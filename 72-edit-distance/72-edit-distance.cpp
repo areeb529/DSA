@@ -1,23 +1,24 @@
 class Solution {
 public:
-    int helper(string &word1,int i,int m, string &word2,int j,int n,vector<vector<int>> &dp){
-        if(i==m||j==n){
-            return max(m-i,n-j);
-        }
-        if(dp[i][j]!=-1)return dp[i][j];
-        if(word1[i]==word2[j]){
-            return dp[i][j]=helper(word1,i+1,m,word2,j+1,n,dp);
-        }
-        else{
-            int op1=1+helper(word1,i+1,m,word2,j,n,dp);
-            int op2=1+helper(word1,i,m,word2,j+1,n,dp);
-            int op3=1+helper(word1,i+1,m,word2,j+1,n,dp);
-            return dp[i][j]=min(op1,min(op2,op3));
-        }
-    }
+    
     int minDistance(string word1, string word2) {
         int m=word1.size(),n=word2.size();
-        vector<vector<int>> dp(m,vector<int>(n,-1));
-        return helper(word1,0,m,word2,0,n,dp);
+        vector<vector<int>> dp(m+1,vector<int>(n+1));
+        for(int i=m;i>=0;i--){
+            for(int j=n;j>=0;j--){
+                if(i==m||j==n){
+                    dp[i][j]=max(m-i,n-j);
+                }
+                else{
+                    if(word1[i]==word2[j]){
+                        dp[i][j]=dp[i+1][j+1];
+                    }
+                    else{
+                        dp[i][j]=1+min(dp[i+1][j],min(dp[i][j+1],dp[i+1][j+1]));
+                    }
+                }
+            }
+        }
+        return dp[0][0];
     }
 };
