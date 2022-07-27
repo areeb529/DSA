@@ -1,53 +1,10 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        // int m=matrix.size();
-        // int n=matrix[0].size();
-        // vector<int> res;
-        // int ct=m*n;
-        // int i=0,j=0;
-        // while(ct){
-        //     while(j<n&&matrix[i][j]!=101){
-        //         res.push_back(matrix[i][j]);
-        //         matrix[i][j]=101;
-        //         ct--;
-        //         j++;
-        //     }
-        //     j--;
-        //     i++;
-        //     while(i<m&&matrix[i][j]!=101&&ct){
-        //         res.push_back(matrix[i][j]);
-        //         matrix[i][j]=101;
-        //         ct--;
-        //         i++;
-        //     }
-        //     i--;
-        //     j--;
-        //     while(j>=0&&matrix[i][j]!=101&&ct){
-        //         res.push_back(matrix[i][j]);
-        //         matrix[i][j]=101;
-        //         ct--;
-        //         j--;
-        //     }
-        //     j++;
-        //     i--;
-        //     while(i>=0&&matrix[i][j]!=101&&ct){
-        //         res.push_back(matrix[i][j]);
-        //         matrix[i][j]=101;
-        //         ct--;
-        //         i--;
-        //     }
-        //     i++;
-        //     j++;
-        // }
-        // return res;
-        int m=matrix.size();
-        int n=matrix[0].size();
-        int rowStart=0,rowEnd=n-1,colStart=0,colEnd=m-1;
-        int x=0;
+        int m=matrix.size(),n=matrix[0].size();
         int ct=m*n;
         vector<int> res;
-        
+        int rowStart=0,rowEnd=n-1,colStart=0,colEnd=m-1;
         while(ct){
             int i=rowStart,j=colStart;
             for(j=rowStart;ct&&j<=rowEnd;j++){
@@ -65,7 +22,7 @@ public:
                 ct--;
             }
             j++;
-            for(i=colEnd-1;ct&&i>=colStart+1;i--){
+            for(i=colEnd-1;ct&&i>colStart;i--){
                 res.push_back(matrix[i][j]);
                 ct--;
             }
@@ -76,6 +33,5 @@ public:
             colEnd--;
         }
         return res;
-        
     }
 };
