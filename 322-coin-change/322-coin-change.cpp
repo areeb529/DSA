@@ -1,26 +1,23 @@
 class Solution {
 public:
-    int helper(vector<int> &coins,int i,int amount,vector<vector<int>> &dp){
-       if(i==coins.size()||amount==0){
-           return (amount==0)?0:INT_MAX-1;
-       }
-        if(dp[i][amount]!=-1)return dp[i][amount];
-        int ans=-1;
-        if(amount<coins[i]){
-            int coinNotTaken=helper(coins,i+1,amount,dp);
-            ans=coinNotTaken;
-        }
-        else{
-            int coinTaken=1+helper(coins,i,amount-coins[i],dp);
-            int coinNotTaken=helper(coins,i+1,amount,dp);
-            ans=min(coinTaken,coinNotTaken);
-        }
-        return dp[i][amount]=ans;
-    }
+
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
-        vector<vector<int>> dp(n,vector<int>(amount+1,-1));
-        int ans=helper(coins,0,amount,dp);
+        vector<vector<int>> dp(n+1,vector<int>(amount+1,0));
+        for(int j=1;j<=amount;j++){
+            dp[n][j]=INT_MAX-1;
+        }
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<=amount;j++){
+                if(j<coins[i]){
+                    dp[i][j]=dp[i+1][j];
+                }
+                else{
+                    dp[i][j]=min(1+dp[i][j-coins[i]],dp[i+1][j]);
+                }
+            }
+        }
+        int ans= dp[0][amount];
         return ans==INT_MAX-1?-1:ans;
     }
 };
