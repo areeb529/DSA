@@ -1,24 +1,26 @@
 class Solution {
 public:
-    int helper(vector<int>& coins,int i,int n,int amount,vector<vector<int>> &dp){
-        if(i==n){
-            if(amount==0)return 0;
-            return -1;
+    int helper(vector<int> &coins,int i,int amount,vector<vector<int>> &dp){
+       if(i==coins.size()||amount<=0){
+           return (amount==0)?0:INT_MAX-1;
+       }
+        if(dp[i][amount]!=-1)return dp[i][amount];
+        int ans=-1;
+        if(amount<coins[i]){
+            int coinNotTaken=helper(coins,i+1,amount,dp);
+            ans=coinNotTaken;
         }
-        if(dp[i][amount]!=-2)return dp[i][amount];
-        int op1=-1,op2=-1;
-        if(amount>=coins[i]){
-            int temp=helper(coins,i,n,amount-coins[i],dp);
-            if(temp==-1)op1=-1;
-            else op1=1+temp;
+        else{
+            int coinTaken=1+helper(coins,i,amount-coins[i],dp);
+            int coinNotTaken=helper(coins,i+1,amount,dp);
+            ans=min(coinTaken,coinNotTaken);
         }
-        op2=helper(coins,i+1,n,amount,dp);
-        if(op1==-1||op2==-1)return dp[i][amount]=max(op1,op2);
-        else return dp[i][amount]=min(op1,op2);
+        return dp[i][amount]=ans;
     }
     int coinChange(vector<int>& coins, int amount) {
         int n=coins.size();
-        vector<vector<int>> dp(n,vector<int>(amount+1,-2));
-        return helper(coins,0,n,amount,dp);
+        vector<vector<int>> dp(n,vector<int>(amount+1,-1));
+        int ans=helper(coins,0,amount,dp);
+        return ans==INT_MAX-1?-1:ans;
     }
 };
