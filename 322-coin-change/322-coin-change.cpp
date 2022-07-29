@@ -1,7 +1,7 @@
 class Solution {
 public:
     int helper(vector<int> &coins,int i,int amount,vector<vector<int>> &dp){
-       if(i==coins.size()||amount<=0){
+       if(i==coins.size()||amount==0){
            return (amount==0)?0:INT_MAX-1;
        }
         if(dp[i][amount]!=-1)return dp[i][amount];
