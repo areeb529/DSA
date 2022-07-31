@@ -1,25 +1,25 @@
 class Solution {
 public:
     vector<vector<int>> res;
-    void helper(vector<int>& nums,int i,int n){
-        if(i==n){
+    void helper(vector<int>& nums,int i){
+        if(i==nums.size()){
             res.push_back(nums);
             return;
         }
         unordered_set<int> st;
-        for(int j=i+1;j<n;j++){
-            if(nums[i]==nums[j]||st.count(nums[j])==1)continue;
+        for(int j=i;j<nums.size();j++){
+            if(st.count(nums[j])==1)continue;
             st.insert(nums[j]);
             swap(nums[i],nums[j]);
-            helper(nums,i+1,n);
+            helper(nums,i+1);
             swap(nums[i],nums[j]);
         }
-        st.clear();
-        helper(nums,i+1,n);
+        
     }
     vector<vector<int>> permuteUnique(vector<int>& nums) {
         int n=nums.size();
-        helper(nums,0,n);
+        sort(nums.begin(),nums.end());
+        helper(nums,0);
         return res;
     }
 };
