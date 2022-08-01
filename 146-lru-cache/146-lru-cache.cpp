@@ -1,44 +1,48 @@
 class LRUCache {
 public:
     unordered_map<int,int> mp;
-    unordered_map<int,list<int> :: iterator> address;
+    unordered_map<int,list<int>::iterator> iteratorMap;
+    list<int> lru;
     int capacity;
-    list<int> l;
     int size;
     LRUCache(int capacity) {
-        this->capacity=capacity;
-        size=0;
-    }
-    void evict(){
-        int leastRecentlyUsedKey=l.back();
-        mp.erase(leastRecentlyUsedKey);
-        address.erase(leastRecentlyUsedKey);
-        l.pop_back();
-    }
-    void update(int key){
-        l.erase(address[key]);
-        l.push_front(key);
-        address[key]=l.begin();
+      this->capacity=capacity;  
+      size=0;
     }
     int get(int key) {
         if(mp.count(key)==0)return -1;
-        update(key);
-        return mp[key];
+        else{
+            lru.erase(iteratorMap[key]);
+            lru.push_front(key);
+            iteratorMap[key]=lru.begin();
+            return mp[key];
+        }
     }
     
     void put(int key, int value) {
         if(mp.count(key)==0){
-            if(size==capacity){
-                evict();
-                size--;
-            }
-            l.push_front(key);
             mp[key]=value;
-            address[key]=l.begin();
-            size++;
+            if(size<capacity){
+                lru.push_front(key);
+                iteratorMap[key]=lru.begin();
+                  size++;
+            }
+            else if(size==capacity){
+                auto it=lru.end();
+                it--;
+                iteratorMap.erase(*it);
+                mp.erase(*it);
+                lru.pop_back();
+                lru.push_front(key);
+                iteratorMap[key]=lru.begin();
+                mp[key]=value;
+            }
+          
         }
         else{
-            update(key);
+            lru.erase(iteratorMap[key]);
+            lru.push_front(key);
+            iteratorMap[key]=lru.begin();
             mp[key]=value;
         }
     }
