@@ -9,12 +9,21 @@ public:
       this->capacity=capacity;  
       size=0;
     }
+    void update(int key){
+        lru.erase(iteratorMap[key]);
+        lru.push_front(key);
+        iteratorMap[key]=lru.begin();
+    }
+    void evict(){
+        int lruKey=lru.back();
+        mp.erase(lruKey);
+        iteratorMap.erase(lruKey);
+        lru.pop_back();
+    }
     int get(int key) {
         if(mp.count(key)==0)return -1;
         else{
-            lru.erase(iteratorMap[key]);
-            lru.push_front(key);
-            iteratorMap[key]=lru.begin();
+            update(key);
             return mp[key];
         }
     }
@@ -28,11 +37,7 @@ public:
                   size++;
             }
             else if(size==capacity){
-                auto it=lru.end();
-                it--;
-                iteratorMap.erase(*it);
-                mp.erase(*it);
-                lru.pop_back();
+                evict();
                 lru.push_front(key);
                 iteratorMap[key]=lru.begin();
                 mp[key]=value;
@@ -40,9 +45,7 @@ public:
           
         }
         else{
-            lru.erase(iteratorMap[key]);
-            lru.push_front(key);
-            iteratorMap[key]=lru.begin();
+            update(key);
             mp[key]=value;
         }
     }
