@@ -9,27 +9,27 @@
 <p>&nbsp;</p>
 <p><strong>Example 1:</strong></p>
 
-<pre style="position: relative;"><strong>Input:</strong> s = "25525511135"
+<pre><strong>Input:</strong> s = "25525511135"
 <strong>Output:</strong> ["255.255.11.135","255.255.111.35"]
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p><strong>Example 2:</strong></p>
 
-<pre style="position: relative;"><strong>Input:</strong> s = "0000"
+<pre><strong>Input:</strong> s = "0000"
 <strong>Output:</strong> ["0.0.0.0"]
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p><strong>Example 3:</strong></p>
 
-<pre style="position: relative;"><strong>Input:</strong> s = "101023"
+<pre><strong>Input:</strong> s = "101023"
 <strong>Output:</strong> ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
-<div class="open_grepper_editor" title="Edit &amp; Save To Grepper"></div></pre>
+</pre>
 
 <p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
 
 <ul>
-	<li><code>0 &lt;= s.length &lt;= 20</code></li>
+	<li><code>1 &lt;= s.length &lt;= 20</code></li>
 	<li><code>s</code> consists of digits only.</li>
 </ul>
 </div>
