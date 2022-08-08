@@ -1,6 +1,6 @@
 class Solution {
 public:
-     map<int,string> mp;
+     unordered_map<int,string> mp;
     string helper(int num,vector<int> &arr){
         string ans;
         while(true){
