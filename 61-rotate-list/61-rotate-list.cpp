@@ -10,33 +10,26 @@
  */
 class Solution {
 public:
-    // ListNode*reverseLL(ListNode*head){
-    //     if(head==NULL||head->next==NULL)return head;
-    //     ListNode*newHead=reverseLL(head->next);
-    //     head->next->next=head;
-    //     head->next=NULL;
-    //     return newHead;
-    // }
-    
     ListNode* rotateRight(ListNode* head, int k) {
         if(head==NULL||head->next==NULL)return head;
-        int length=1;
+        int length=0;
         ListNode*tail=head;
-        while(tail->next){
-            tail=tail->next;
+        ListNode*temp=head;
+        while(temp){
+            temp=temp->next;
+            if(temp&&temp->next==NULL)tail=temp;
             length++;
         }
-        int y=k%length;
-        if(y==0)return head;
-        int ct=1;
-        ListNode*temp=head;
-        while(ct<length-y){
+        k=k%length;
+        if(k==0)return head;
+        int cnt=length-k;
+        cnt--;
+        temp=head;
+        while(cnt--){
             temp=temp->next;
-            ct++;
         }
         ListNode*newHead=temp->next;
         temp->next=NULL;
-        
         tail->next=head;
         return newHead;
     }
