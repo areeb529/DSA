@@ -11,16 +11,17 @@
  */
 class Solution {
 public:
+    vector<vector<int>> res;
     map<int,map<int,multiset<int>>> mp;
-    void helper(TreeNode*root,int row,int col){
+    void dfs(TreeNode* root,int row,int col){
         if(!root)return;
         mp[col][row].insert(root->val);
-        helper(root->left,row+1,col-1);
-        helper(root->right,row+1,col+1);
+        dfs(root->left,row+1,col-1);
+        dfs(root->right,row+1,col+1);
     }
     vector<vector<int>> verticalTraversal(TreeNode* root) {
-        helper(root,0,0);
-        vector<vector<int>> res;
+        if(!root)return res;
+        dfs(root,0,0);
         for(auto &i:mp){
             vector<int> v;
             for(auto &j:i.second){
