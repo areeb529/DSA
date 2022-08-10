@@ -11,26 +11,12 @@
  */
 class Solution {
 public:
-    // bool isValidBST(TreeNode*root,TreeNode*maxNode,TreeNode*minNode){
-    //     if(!root)return root;
-    //     maxNode=
-    // }
-    vector<int> res;
+    bool helper(TreeNode*minNode,TreeNode*root,TreeNode*maxNode){
+       if(!root)return true;
+       if(minNode&&minNode->val>=root->val||maxNode&&root->val>=maxNode->val)return false;
+       return helper(minNode,root->left,root)&&helper(root,root->right,maxNode);
+    }
     bool isValidBST(TreeNode* root) {
-       stack<TreeNode*> st;
-        long prev=-1e11;
-        while(root||!st.empty()){
-            while(root){
-                st.push(root);
-                root=root->left;
-            }
-            root=st.top();
-            if(prev>=root->val)return false;
-            prev=root->val;
-            st.pop();
-            root=root->right;
-        }
-        return true;
-        
+        return helper(NULL,root,NULL);
     }
 };
