@@ -15,8 +15,8 @@ public:
         vector<vector<int>> res;
         if(!root)return res;
         queue<TreeNode*> pN;
-        pN.push(root);
         int leftToRight=1;
+        pN.push(root);
         while(!pN.empty()){
             int n=pN.size();
             vector<int> level(n);
@@ -29,15 +29,11 @@ public:
                 else{
                     level[n-i-1]=front->val;
                 }
-                if(front->left){
-                    pN.push(front->left);
-                }
-                if(front->right){
-                    pN.push(front->right);
-                }
+                if(front->left)pN.push(front->left);
+                if(front->right)pN.push(front->right);
             }
-            leftToRight^=1;
             res.push_back(level);
+            leftToRight^=1;
         }
         return res;
     }
