@@ -11,50 +11,13 @@
  */
 class Solution {
 public:
-//     TreeNode*tail=NULL;
-//     TreeNode*flattenTree(TreeNode*root){
-//         if(!root)return root;
-//         if(root->right==NULL){
-//             tail=root;
-//         }
-//         TreeNode*leftS=flattenTree(root->left);
-//         if(leftS==NULL)tail=root;
-//         root->left=NULL;
-//         TreeNode*temp=tail;
-//         TreeNode*rightS=flattenTree(root->right);
-//         if(temp){
-//             root->right=leftS;
-//             temp->right=rightS;
-//         }
-//         else{
-//             root->right=rightS;
-//         }
-//         return root;
-        
-//     }
-    //TreeNode*prev=NULL;
+    TreeNode*prev=NULL;
     void flatten(TreeNode* root) {
-        // if(!root)return;
-        // flatten(root->right);
-        // flatten(root->left);
-        // root->left=NULL;
-        // root->right=prev;
-        // prev=root;
-        TreeNode*cur=root;
-        TreeNode*temp=cur;
-        while(cur){
-            temp=cur;
-            if(cur->left){
-                cur=cur->left;
-                while(cur->right){
-                    cur=cur->right;
-                }
-                cur->right=temp->right;
-                temp->right=temp->left;
-                temp->left=NULL;
-                cur=temp;
-            }
-            cur=cur->right;
-        }
+       if(!root)return;
+        flatten(root->right);
+        flatten(root->left);
+        root->right=prev;
+        root->left=NULL;
+        prev=root;
     }
 };
