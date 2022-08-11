@@ -12,15 +12,21 @@
 class Solution {
 public:
     TreeNode*prev=NULL;
-    bool helper(TreeNode*root){
-        if(!root)return true;
-        bool leftS=helper(root->left);
-        if(!leftS)return false;
-        if(prev&&prev->val>=root->val)return false;
-        prev=root;
-        return helper(root->right);
-    }
     bool isValidBST(TreeNode* root) {
-        return helper(root);
+        stack<TreeNode*> st;
+        TreeNode*cur=root;
+        TreeNode*prev=NULL;
+        while(true){
+            while(cur){
+                st.push(cur);
+                cur=cur->left;
+            }
+            if(st.empty())break;
+            if(prev&&prev->val>=st.top()->val)return false;
+            prev=st.top();
+            cur=st.top()->right;
+            st.pop();
+        }
+        return true;
     }
 };
