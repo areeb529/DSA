@@ -5,14 +5,20 @@ public:
     MyStack() {
         
     }
+    
     void push(int x) {
-        swap(q1,q2);
-        q1.push(x);
-        while(!q2.empty()){
-            q1.push(q2.front());
-            q2.pop();
+        if(q1.empty())q1.push(x);
+        else{
+            while(!q1.empty()){
+                q2.push(q1.front());
+                q1.pop();
+            }
+            q1.push(x);
+            while(!q2.empty()){
+                q1.push(q2.front());
+                q2.pop();
+            }
         }
-        
     }
     
     int pop() {
@@ -22,12 +28,12 @@ public:
     }
     
     int top() {
-        int ans=q1.front();
-        return ans;
+        return q1.front();
+        
     }
     
     bool empty() {
-        return (q1.size()+q2.size())==0;
+        return q1.empty();
     }
 };
 
