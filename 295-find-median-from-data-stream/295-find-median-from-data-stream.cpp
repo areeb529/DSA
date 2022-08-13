@@ -13,12 +13,10 @@ public:
         else{
             minQ.push(num);
         }
-        while(!minQ.empty()&&maxQ.top()>minQ.top()){
-                minQ.push(maxQ.top());
-                maxQ.pop();
-                maxQ.push(minQ.top());
-                minQ.pop();
-        }
+        minQ.push(maxQ.top());
+        maxQ.pop();
+        maxQ.push(minQ.top());
+        minQ.pop();
     }
     
     double findMedian() {
