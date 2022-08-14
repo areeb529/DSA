@@ -18,29 +18,15 @@ public:
 
 class Solution {
 public:
-    
-    // Node*connectNext(Node*root){
-    //     if(!root||root->left==NULL||root->right==NULL)return root;
-    //     root->left->next=root->right;
-    //     if(root->next)
-    //     root->right->next=root->next->left;
-    //     Node*leftS=connectNext(root->left);
-    //     Node*rightS=connectNext(root->right);
-    //     return root;
-    // }
+    void helper(Node*root){
+        if(!root)return;
+        if(root->left)root->left->next=root->right;
+        if(root->next&&root->right)root->right->next=root->next->left;
+        connect(root->left);
+        connect(root->right);
+    }
     Node* connect(Node* root) {
-        if(!root)return root;
-        //return connectNext(root);
-        Node*levelStart=root;
-        while(levelStart){
-            Node*cur=levelStart;
-            while(cur){
-                if(cur->left)cur->left->next=cur->right;
-                if(cur->next&&cur->right)cur->right->next=cur->next->left;
-                cur=cur->next;
-            }
-            levelStart=levelStart->left;
-        }
+        helper(root);
         return root;
     }
 };
