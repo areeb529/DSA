@@ -11,23 +11,18 @@
  */
 class Solution {
 public:
-    unordered_set<int> st;
     int res=0;
-    void helper(TreeNode*root){
-        if(!root)return;
-        if(st.count(root->val)==1)st.erase(root->val);
-        else st.insert(root->val);
-        if(root->left==root->right){
-            if(st.size()<=1)res++;
-        }
-        helper(root->left);
-        helper(root->right);
-        if(st.count(root->val)==1)st.erase(root->val);
-        else st.insert(root->val);
-        
-    }
+   void helper(TreeNode*root,int path){
+       if(!root)return;
+       path^=(1<<root->val);
+       if(root->left==root->right){
+           if((path&path-1)==0)res++;
+       }
+       helper(root->left,path);
+       helper(root->right,path);
+   }
     int pseudoPalindromicPaths (TreeNode* root) {
-        helper(root);
+        helper(root,0);
         return res;
     }
 };
