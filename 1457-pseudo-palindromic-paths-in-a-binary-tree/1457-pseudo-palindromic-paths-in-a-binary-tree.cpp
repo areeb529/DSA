@@ -11,26 +11,23 @@
  */
 class Solution {
 public:
+    unordered_set<int> st;
     int res=0;
-    void helper(TreeNode*root,vector<int> &freq){
+    void helper(TreeNode*root){
         if(!root)return;
-        freq[root->val-1]++;
+        if(st.count(root->val)==1)st.erase(root->val);
+        else st.insert(root->val);
         if(root->left==root->right){
-            int oddFreqCnt=0;
-            for(int i=0;i<9;i++){
-                if(freq[i]&1)oddFreqCnt++;
-            }
-            if(oddFreqCnt<=1)res++;
-            freq[root->val-1]--;
-            return;
+            if(st.size()<=1)res++;
         }
-        helper(root->left,freq);
-        helper(root->right,freq);
-        freq[root->val-1]--;
+        helper(root->left);
+        helper(root->right);
+        if(st.count(root->val)==1)st.erase(root->val);
+        else st.insert(root->val);
+        
     }
     int pseudoPalindromicPaths (TreeNode* root) {
-        vector<int> freq(9,0);
-        helper(root,freq);
+        helper(root);
         return res;
     }
 };
